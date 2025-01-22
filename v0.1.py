@@ -2,7 +2,6 @@ import os
 from PIL import Image
 import numpy as np
 from tqdm import tqdm
-#короче берет и заменяет зоны указаныз рахмеров на изображения позожего цвето если чет не понятно проси чертовы чертежи (файл логики работы) я сам не помню как это работает
 def calculate_average_color(image, offset_fraction=1/3):
     """
     Calculate the average color of the central region of an image.
@@ -28,14 +27,14 @@ def generate_color_map(source_folder):
     
     for file_name in tqdm(files, desc="Processing images for color map"):
         file_path = os.path.join(source_folder, file_name)
-        if not os.path.isfile(file_path):  # Пропускаем директории
+        if not os.path.isfile(file_path):  # skip file
             continue
         try:
             with Image.open(file_path) as img:
                 avg_color = calculate_average_color(img)
                 color_map.append((avg_color, file_path))
         except Exception as e:
-            print(f"проверь ззараза:Skipping {file_path}: {e}")
+            print(f"Skipping {file_path}: {e}")
     return color_map
 
 def find_closest_match(color, color_map):
@@ -85,16 +84,16 @@ def create_mosaic(source_image_path, color_map, tile_size, output_path):
         output_img.save(output_path)
 
 if __name__ == "__main__":
-    source_folder = input("путь для папки с изображениями : ")
-    source_image_path = input("путь до изначального файла: ")
-    output_path = input("куда созранять мозайку (файл): ")
+    source_folder = input("path to folder wit images: ")
+    source_image_path = input("path to image: ")
+    output_path = input("path to where save image (exampl/path/image.jpeg/png): ")
     tile_width = int(input("Enter the width of each tile: "))
     tile_height = int(input("Enter the height of each tile: "))
 
-    print("создание карты цветов...")
+    print("color map creation in progre...")
     color_map = generate_color_map(source_folder)
 
-    print("создание калаша...")
+    print("creating mozaik...")
     create_mosaic(source_image_path, color_map, (tile_width, tile_height), output_path)
 
-    print(f"мозайка созранена в{output_path}")
+    print(f"mozaik saved in: {output_path}")
