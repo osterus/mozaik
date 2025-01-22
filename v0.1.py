@@ -84,7 +84,7 @@ def create_mosaic(source_image_path, color_map, tile_size, output_path):
         output_img.save(output_path)
 
 if __name__ == "__main__":
-    source_folder = input("path to folder wit images: ")
+    source_folder = input("path to folder with images: ")
     source_image_path = input("path to image: ")
     output_path = input("path to where save image (exampl/path/image.jpeg/png): ")
     tile_width = int(input("Enter the width of each tile: "))
